@@ -34,10 +34,12 @@ class NormalDist:
             self.randoms = np.append(self.randoms, [rand1, rand2])
 
         value = self.randoms[0]
-        np.delete(self.randoms, [0], axis=0)
+        self.randoms = np.delete(self.randoms, [0], axis=0)
+
         return value
 
 
 if __name__ == '__main__':
     nd = NormalDist()
+    print nd.get_random()
     print nd.get_random()
