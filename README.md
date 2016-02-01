@@ -1,6 +1,6 @@
 # ReinforcementLearning
 
-an implementation code to study ReinforcementLearning
+a Python implementation code to study ReinforcementLearning
 
 
 ---
