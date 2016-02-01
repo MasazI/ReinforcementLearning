@@ -43,7 +43,7 @@ def bandit_exec():
 
         if input_line == 'q':
             print('quit')
-            exit()
+            break
 
         if 0 <= int(input_line) and int(input_line) <= 9:
             print(bandit.select(int(input_line)))
