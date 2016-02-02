@@ -14,17 +14,24 @@ class RunBandit():
 
 
     def do(self, count):
+        '''
+        試行と学習(行動価値の更新)
+        '''
         for i in xrange(self.count):
+            # 腕を選択
             selected_arm = self.method.select()
+            # 試行して報酬を取得
             reward = self.bandit.select(selected_arm)
+            # 合計報酬に加算
             self.total_reward += reward
+            # 行動の価値を更新
             self.method.reflect(selected_arm, reward)
         self.count += count
 
 
     def average(self):
         '''
-        得られた報酬の平均
+        得られた報酬の試行回数に対する平均(報酬の期待値の最大値に近づくことを目指す)
         '''
         try:
             return (self.total_reward * 1.0) / self.count

@@ -18,13 +18,13 @@ class Greedy:
         self.epsilon = epsilon
         self.stepsize = stepsize
 
-        self.times = [0]*size
-        self.values = [0.0]*size
+        self.times = [0]*size # 行動の試行回数
+        self.values = [0.0]*size # 行動に対する価値
 
 
     def select(self):
         '''
-        greedyに腕を選択
+        greedyに腕を選択(選択して報酬を返す)
         '''
         if random.random() < self.epsilon:
             # epsilonより小さい場合はランダムに腕を選択
@@ -39,7 +39,7 @@ class Greedy:
         学習=得られた報酬の反映
         arguments:
             selected: 選んだ腕のindex
-            value: 得られた報酬
+            value: 得られた報酬(selectedの選択で得た報酬)
         '''
         # 試行回数をインクリメント
         self.times[selected] += 1

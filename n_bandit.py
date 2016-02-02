@@ -15,21 +15,21 @@ class N_Bandit():
             reward_var: 行動に対する報酬の分散
         '''
         self.size = size
-        self.bandits = [0]*size
-        self.reward_exps = [0]*size
+        self.bandits = [0]*size # 各腕に対する確率分布
+        self.reward_exps = [0]*size # 各腕に対する報酬の期待値 
         random = normal_dist.NormalDist(reward_exp_avg, reward_exp_var)
 
         for i in xrange(size):
-            # 報酬の期待値はランダムに生成
-            # 行動(N本のバンディット)に対するガウシアン分布
+            # 行動(N本のバンディット)に対するガウシアン分布をランダムに生成
             reward_exp = random.get_random()
             self.bandits[i] = normal_dist.NormalDist(reward_exp, reward_var)
+
             # 行動(N本のバンディット)に対する報酬の期待値をランダムに決定
             self.reward_exps[i] = reward_exp 
 
     def select(self, i):
         '''
-        i番目のバンディットを選択
+        i番目のバンディットを選択して確率分布に従う報酬を返す
         '''
         return self.bandits[i].get_random()
 
