@@ -1,6 +1,7 @@
 # encoding: utf-8
 import n_bandit
 import greedy as gd
+import softmax as sm
 
 class RunBandit():
     '''
@@ -28,7 +29,6 @@ class RunBandit():
             self.method.reflect(selected_arm, reward)
         self.count += count
 
-
     def average(self):
         '''
         得られた報酬の試行回数に対する平均(報酬の期待値の最大値に近づくことを目指す)
@@ -38,17 +38,15 @@ class RunBandit():
         except Exception:
             return 0.0
 
-
     def max_exp(self):
         '''
         報酬の期待値の最大値
         '''
         return max(self.bandit.reward_exps)
 
-
     def optimality(self):
         '''
-        最適度
+        最適度 試行回数に対する平均/期待値の最大値
         '''
         return self.average()/self.max_exp()
     
@@ -63,7 +61,9 @@ if __name__ == '__main__':
 
     epsilon_greedy = RunBandit(bandit, gd.Greedy(bandit_num))
 
-    for method in [greedy, epsilon_greedy]:
+    softmax = RunBandit(bandit, sm.SoftMaxMethod(bandit_num)) 
+
+    for method in [greedy, epsilon_greedy, softmax]:
         print("---------------------------------")
         print("time, reward.average, optimality")
         print("---------------------------------")

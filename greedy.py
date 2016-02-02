@@ -24,7 +24,7 @@ class Greedy:
 
     def select(self):
         '''
-        greedyに腕を選択(選択して報酬を返す)
+        greedyに腕を選択(選択した腕のインデックスを返す)
         '''
         if random.random() < self.epsilon:
             # epsilonより小さい場合はランダムに腕を選択
