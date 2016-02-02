@@ -18,7 +18,7 @@ class RunBandit():
         '''
         試行と学習(行動価値の更新)
         '''
-        for i in xrange(self.count):
+        for i in range(self.count):
             # 腕を選択
             selected_arm = self.method.select()
             # 試行して報酬を取得
@@ -56,7 +56,7 @@ if __name__ == '__main__':
     bandit_num = 10
 
     bandit = n_bandit.N_Bandit(size=bandit_num)
-    
+  
     greedy = RunBandit(bandit, gd.Greedy(bandit_num))
 
     epsilon_greedy = RunBandit(bandit, gd.Greedy(bandit_num, 0.1))
@@ -70,4 +70,6 @@ if __name__ == '__main__':
         for i in range(20):
             method.do(100)
             print("%d, %f, %f" % (method.count, method.average(), method.optimality()))
+        print bandit.reward_exps
+        print method.method.times
 
