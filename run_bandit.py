@@ -59,9 +59,9 @@ if __name__ == '__main__':
     
     greedy = RunBandit(bandit, gd.Greedy(bandit_num))
 
-    epsilon_greedy = RunBandit(bandit, gd.Greedy(bandit_num))
+    epsilon_greedy = RunBandit(bandit, gd.Greedy(bandit_num, 0.1))
 
-    softmax = RunBandit(bandit, sm.SoftMaxMethod(bandit_num)) 
+    softmax = RunBandit(bandit, sm.SoftMaxMethod(bandit_num, 0.2)) 
 
     for method in [greedy, epsilon_greedy, softmax]:
         print("---------------------------------")
