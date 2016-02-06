@@ -24,7 +24,7 @@ class StatusValue():
 
         self.print_bar = "----" + ("-------" * self.rcu.MAX_NUM_RENTAL_CAR)
         self.print_header = "   |"
-        for i in range(self.rcu.MAX_NUM_RENTAL_CAR):
+        for i in xrange(self.rcu.MAX_NUM_RENTAL_CAR):
             self.print_header += "    %02d " % (i+1)
 
     def get(self, x, y):
@@ -51,9 +51,9 @@ class StatusValue():
         print self.print_bar
         print self.print_header
         print self.print_bar
-        for j in range(self.rcu.MAX_NUM_RENTAL_CAR):
+        for j in xrange(self.rcu.MAX_NUM_RENTAL_CAR):
             print_format = "%02d |" % (j+1)
-            for i in range(self.rcu.MAX_NUM_RENTAL_CAR):
+            for i in xrange(self.rcu.MAX_NUM_RENTAL_CAR):
                 print_format += " %5.1f " % self.value[i][j]
             print print_format
 
@@ -81,8 +81,11 @@ class StatusValue():
         if (next_x_start < 0) or (next_x_start > self.rcu.MAX_NUM_REANTAL_CAR) or (next_y_start < 0) or (next_y_start > self.rcu.MAX_NUM_REANTAL_CAR):
             raise Exception("move is invalid.")
 
-        # 第1営業所で貸し出せるのは 0 ~ next_x_start、第2営業所で貸し出せるのは 0 ~ next_y_start
-        
+        # 次の朝第1営業所で貸し出せるのは 0 ~ next_x_start
+        # 次の朝第2営業所で貸し出せるのは 0 ~ next_y_start
+        for x_rental in xrange(next_x_start):
+            for y_rental in xrange(next_y_start):
+
 
         
 
