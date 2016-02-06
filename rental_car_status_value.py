@@ -6,6 +6,8 @@
 import rental_car_util as util
 import numpy as np
 
+from util import poisson_dist
+
 class StatusValue():
     '''
     状態価値
@@ -26,6 +28,9 @@ class StatusValue():
         self.print_header = "   |"
         for i in xrange(self.rcu.MAX_NUM_RENTAL_CAR):
             self.print_header += "    %02d " % (i+1)
+
+        # ポアソン分布
+        self.pd = poisson_dist.PoissonDist()
 
     def get(self, x, y):
         '''
@@ -85,9 +90,53 @@ class StatusValue():
         # 次の朝第2営業所で貸し出せるのは 0 ~ next_y_start
         for x_rental in xrange(next_x_start):
             for y_rental in xrange(next_y_start):
+                x_rest = next_x_start - x_rental
+                y_rest = next_y_start - y_rental
+
+                # 次の朝第1営業所に返却することができるのは 0 ~ MAX_NUM_RANTAL_CAR - x_rest
+                # 次の朝第2営業所に返却することができるのは 0 ~ MAX_NUM_RENTAL_CAR - y_rest
+                for x_return in xrange(self.rcu.MAX_NUM_RENTAL_CAR - x_rest):
+                    for y_return in xrange(self.rcu.MAX_NUM_RENTAL_CAR - y_rest):
+                        # 全ての行動の確率を掛け合わせる
+                        probability = self.x_rental_probability(x_rental) * self.y_rental_probability(y_rental) * self.x_return_probability(x_return) * self.y_return_probability(y_return)
+           
+                        # 報酬(Reward)
+                        # 貸し出すと10ドルの報酬、逆に借りると2ドルの減益
+                        reward = (x_rental + y_rental) * 10 - abs(move) * 2
+                        
+                        # さらに次の状態は、次の朝の台数に貸出分を引き、返却分を足す
+                        next_x = next_x_start - x_rental + x_return
+                        next_y = next_y_start - y_rental + y_return
+
+                        # 価値の期待値
+                        # 確率 * (報酬 + 次の[x, y]の報酬)
+                        value += probability * (reward + 0.9 * self.value[next_x][next_y])
+        return value
 
 
-        
+    def x_rental_probability(self, n):
+        '''
+        第1営業所の貸台数がnになる確率. 期待値3
+        '''
+        self.pd.get_dist(n, 3)
+    
+    def y_rental_probability(self, n):
+        '''
+        第2営業所の貸台数がnになる確率. 期待値4
+        '''
+        self.pd.get_dist(n, 4)
+    
+    def x_return_probability(self, n):
+        '''
+        第1営業所への返却台数がnになる確率. 期待値3
+        '''
+        self.pd.get_dist(n, 3)
+    
+    def y_return_probability(self, n):
+        '''
+        第2営業所への返却台数がnになる確率. 期待値4
+        '''
+        self.pd.get_dist(n, 2)
 
  
 def test():
