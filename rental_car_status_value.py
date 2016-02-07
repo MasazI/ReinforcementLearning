@@ -24,6 +24,7 @@ class StatusValue():
         print("value shape: ")
         print(self.value.shape)
 
+        self.print_boundary = "====" + ("=======" * self.rcu.MAX_NUM_RENTAL_CAR)
         self.print_bar = "----" + ("-------" * self.rcu.MAX_NUM_RENTAL_CAR)
         self.print_header = "   |"
         for i in xrange(self.rcu.MAX_NUM_RENTAL_CAR):
@@ -53,6 +54,8 @@ class StatusValue():
         '''
         状態価値の出力
         '''
+        print self.print_boundary
+        print "V(s)"
         print self.print_bar
         print self.print_header
         print self.print_bar
@@ -64,7 +67,7 @@ class StatusValue():
 
     def value_of_move(self, x, y, move):
         '''
-        行動(車の移動)のとき状態価値の計算
+        状態x,yに対する行動(車の移動)の価値の計算
         arguments:
             x: 第1営業所
             y: 第2営業所
@@ -76,14 +79,15 @@ class StatusValue():
         '''
         # 初期化
         value = .0 
-        
+       
+        # V(s) 
         # 次の朝に第1営業所にある車の数
         next_x_start = x - move
         # 次の朝に第2営業所にある車の数
         next_y_start = y + move
 
         # validation
-        if (next_x_start < 0) or (next_x_start > self.rcu.MAX_NUM_REANTAL_CAR) or (next_y_start < 0) or (next_y_start > self.rcu.MAX_NUM_REANTAL_CAR):
+        if (next_x_start < 0) or (next_x_start > self.rcu.MAX_NUM_RENTAL_CAR) or (next_y_start < 0) or (next_y_start > self.rcu.MAX_NUM_RENTAL_CAR):
             raise Exception("move is invalid.")
 
         # 次の朝第1営業所で貸し出せるのは 0 ~ next_x_start
@@ -104,39 +108,59 @@ class StatusValue():
                         # 貸し出すと10ドルの報酬、逆に借りると2ドルの減益
                         reward = (x_rental + y_rental) * 10 - abs(move) * 2
                         
-                        # さらに次の状態は、次の朝の台数に貸出分を引き、返却分を足す
+                        # さらに次の状態 V(s+1) は、次の朝の台数に貸出分を引き、返却分を足す
                         next_x = next_x_start - x_rental + x_return
                         next_y = next_y_start - y_rental + y_return
 
                         # 価値の期待値
-                        # 確率 * (報酬 + 次の[x, y]の報酬)
+                        # 確率 * (報酬 + 次の[x, y]の報酬) を全ての状態について足し合わせる
                         value += probability * (reward + 0.9 * self.value[next_x][next_y])
+                        
         return value
 
+    def get_most_valuable_move(self, x, y, *move_list):
+        '''
+        最大の価値の行動
+        '''
+        # 状態x, yに対する行動と価値のMapを生成
+        # key: move, value: value of move
+        move_value_map = {}
+        print move_list
+        for move in move_list:
+            print move
+            value = self.value_of_move(x, y, move)
+            move_value_map[move] = value
+
+        # 最大の価値をとる行動
+        highest_value_move = max(move_value_map)
+        # 最大の価値
+        highest_value = move_value_map[highest_value_move]
+
+        return highest_value_move, highest_value
 
     def x_rental_probability(self, n):
         '''
         第1営業所の貸台数がnになる確率. 期待値3
         '''
-        self.pd.get_dist(n, 3)
+        return self.pd.get_dist(n, 3)
     
     def y_rental_probability(self, n):
         '''
         第2営業所の貸台数がnになる確率. 期待値4
         '''
-        self.pd.get_dist(n, 4)
+        return self.pd.get_dist(n, 4)
     
     def x_return_probability(self, n):
         '''
         第1営業所への返却台数がnになる確率. 期待値3
         '''
-        self.pd.get_dist(n, 3)
+        return self.pd.get_dist(n, 3)
     
     def y_return_probability(self, n):
         '''
         第2営業所への返却台数がnになる確率. 期待値4
         '''
-        self.pd.get_dist(n, 2)
+        return self.pd.get_dist(n, 2)
 
  
 def test():
@@ -149,6 +173,7 @@ def test():
     print(sv.get(1,2))
 
     sv.output()
+    print sv.get_most_valuable_move(5,6,1,2,3)
 
 
 if __name__ == '__main__':
