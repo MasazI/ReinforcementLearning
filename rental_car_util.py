@@ -5,6 +5,10 @@ class RentalCarUtil():
 
     MAX_NUM_MOVE = 5
 
+    discount_rate = 0.9
+
+    delta_max = 0.05
+
 if __name__ == '__main__':
     rcu = RentalCarUtil()
     print rcu.MAX_NUM_RENTAL_CAR
