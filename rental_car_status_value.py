@@ -76,7 +76,7 @@ class StatusValue():
             value: 状態価値
         '''
         # 初期化
-        value = .0 
+        value = 0.0 
        
         # V(s) 
         # 次の朝に第1営業所にある車の数
@@ -86,8 +86,10 @@ class StatusValue():
 
         # validation
         if (next_x_start < 0) or (next_x_start > self.rcu.MAX_NUM_RENTAL_CAR) or (next_y_start < 0) or (next_y_start > self.rcu.MAX_NUM_RENTAL_CAR):
-            print next_x_start
-            print next_y_start
+            #print "----"
+            #print x
+            #print y
+            #print move
             raise Exception("move is invalid.")
 
         # 次の朝第1営業所で貸し出せるのは 0 ~ next_x_start
@@ -133,9 +135,9 @@ class StatusValue():
                 pass
 
         # 最大の価値をとる行動
-        highest_value_move = max(move_value_map)
+        highest_value = max(move_value_map.values())
         # 最大の価値
-        highest_value = move_value_map[highest_value_move]
+        highest_value_move = max([(v,k) for k,v in move_value_map.items()])[1]
 
         return highest_value_move, highest_value
 

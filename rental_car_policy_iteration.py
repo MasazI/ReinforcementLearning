@@ -63,16 +63,17 @@ class PolicyIteration:
                     new_value = self.value.value_of_move(x, y, self.policy.get_policy(x, y))
 
                     # 改善幅deltaの更新
-                    delta = max(delta, abs(new_value - old_value))
+                    delta = max([delta, abs(new_value - old_value)])
 
                     # 状態価値に新しい値を設定
                     self.value.set(x, y, new_value)
 
             if delta < self.rcu.delta_max:
                 break
-        if self.verbose:
-            print("evaluta_policy: ")
-            self.value.output() 
+            if self.verbose:
+                print("evaluta_policy: ")
+                self.value.output() 
+                self.policy.output()
 
 
     def improve_policy(self):
@@ -94,11 +95,16 @@ class PolicyIteration:
                 new_policy, max_value = self.value.get_most_valuable_move(x, y, self.move_range)
 
                 if old_policy != new_policy:
-                    print "updated!"
+                    #print "updated!"
+                    #print old_policy
+                    #print new_policy
                     updated = True
                     self.policy.set_policy(x, y, new_policy)
                 else:
-                    print "not updated."
+                    pass
+                    #print "not updated."
+                    #print old_policy
+                    #print new_policy
         return updated
 
 
