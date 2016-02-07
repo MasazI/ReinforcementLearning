@@ -86,6 +86,8 @@ class StatusValue():
 
         # validation
         if (next_x_start < 0) or (next_x_start > self.rcu.MAX_NUM_RENTAL_CAR) or (next_y_start < 0) or (next_y_start > self.rcu.MAX_NUM_RENTAL_CAR):
+            print next_x_start
+            print next_y_start
             raise Exception("move is invalid.")
 
         # 次の朝第1営業所で貸し出せるのは 0 ~ next_x_start
@@ -116,18 +118,19 @@ class StatusValue():
                         
         return value
 
-    def get_most_valuable_move(self, x, y, *move_list):
+    def get_most_valuable_move(self, x, y, move_list):
         '''
         最大の価値の行動
         '''
         # 状態x, yに対する行動と価値のMapを生成
         # key: move, value: value of move
         move_value_map = {}
-        print move_list
         for move in move_list:
-            print move
-            value = self.value_of_move(x, y, move)
-            move_value_map[move] = value
+            try:
+                value = self.value_of_move(x, y, move)
+                move_value_map[move] = value
+            except Exception as e:
+                pass
 
         # 最大の価値をとる行動
         highest_value_move = max(move_value_map)

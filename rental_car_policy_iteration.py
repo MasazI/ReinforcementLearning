@@ -22,7 +22,7 @@ class PolicyIteration:
         self.rcu = util.RentalCarUtil()
 
         # 行動の範囲
-        self.move_range = tuple(range(-self.rcu.MAX_NUM_RENTAL_CAR, self.rcu.MAX_NUM_RENTAL_CAR+1))
+        self.move_range = tuple(range(-self.rcu.MAX_NUM_MOVE, self.rcu.MAX_NUM_MOVE+1))
 
 
 
@@ -94,8 +94,11 @@ class PolicyIteration:
                 new_policy, max_value = self.value.get_most_valuable_move(x, y, self.move_range)
 
                 if old_policy != new_policy:
+                    print "updated!"
                     updated = True
                     self.policy.set_policy(x, y, new_policy)
+                else:
+                    print "not updated."
         return updated
 
 
@@ -118,7 +121,7 @@ def execute():
     policy_iteration.value.output()
 
     print("optimized policy: 最適方策")
-    policy_iteration.policy_output()
+    policy_iteration.policy.output()
 
 if __name__ == '__main__':
     #test()
