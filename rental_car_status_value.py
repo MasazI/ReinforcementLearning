@@ -20,15 +20,15 @@ class StatusValue():
         '''
         self.rcu = util.RentalCarUtil()
 
-        self.value = np.zeros([self.rcu.MAX_NUM_RENTAL_CAR, self.rcu.MAX_NUM_RENTAL_CAR], dtype=np.float)
+        self.value = np.zeros([self.rcu.MAX_NUM_RENTAL_CAR+1, self.rcu.MAX_NUM_RENTAL_CAR+1], dtype=np.float)
         print("value shape: ")
         print(self.value.shape)
 
-        self.print_boundary = "====" + ("=======" * self.rcu.MAX_NUM_RENTAL_CAR)
-        self.print_bar = "----" + ("-------" * self.rcu.MAX_NUM_RENTAL_CAR)
+        self.print_boundary = "====" + ("=======" * (self.rcu.MAX_NUM_RENTAL_CAR+1))
+        self.print_bar = "----" + ("-------" * (self.rcu.MAX_NUM_RENTAL_CAR+1))
         self.print_header = "   |"
-        for i in xrange(self.rcu.MAX_NUM_RENTAL_CAR):
-            self.print_header += "    %02d " % (i+1)
+        for i in xrange(self.rcu.MAX_NUM_RENTAL_CAR+1):
+            self.print_header += "    %02d " % (i)
 
         # ポアソン分布
         self.pd = poisson_dist.PoissonDist()
@@ -57,9 +57,9 @@ class StatusValue():
         print self.print_boundary
         print self.print_header
         print self.print_bar
-        for j in xrange(self.rcu.MAX_NUM_RENTAL_CAR):
-            print_format = "%02d |" % (j+1)
-            for i in xrange(self.rcu.MAX_NUM_RENTAL_CAR):
+        for j in xrange(self.rcu.MAX_NUM_RENTAL_CAR+1):
+            print_format = "%02d |" % (j)
+            for i in xrange(self.rcu.MAX_NUM_RENTAL_CAR+1):
                 print_format += " %5.1f " % self.value[i][j]
             print print_format
 
@@ -90,15 +90,15 @@ class StatusValue():
 
         # 次の朝第1営業所で貸し出せるのは 0 ~ next_x_start
         # 次の朝第2営業所で貸し出せるのは 0 ~ next_y_start
-        for x_rental in xrange(next_x_start):
-            for y_rental in xrange(next_y_start):
+        for x_rental in xrange(next_x_start + 1):
+            for y_rental in xrange(next_y_start + 1):
                 x_rest = next_x_start - x_rental
                 y_rest = next_y_start - y_rental
 
                 # 次の朝第1営業所に返却することができるのは 0 ~ MAX_NUM_RANTAL_CAR - x_rest
                 # 次の朝第2営業所に返却することができるのは 0 ~ MAX_NUM_RENTAL_CAR - y_rest
-                for x_return in xrange(self.rcu.MAX_NUM_RENTAL_CAR - x_rest):
-                    for y_return in xrange(self.rcu.MAX_NUM_RENTAL_CAR - y_rest):
+                for x_return in xrange(self.rcu.MAX_NUM_RENTAL_CAR + 1 - x_rest):
+                    for y_return in xrange(self.rcu.MAX_NUM_RENTAL_CAR + 1 - y_rest):
                         # 全ての行動の確率を掛け合わせる
                         probability = self.x_rental_probability(x_rental) * self.y_rental_probability(y_rental) * self.x_return_probability(x_return) * self.y_return_probability(y_return)
            

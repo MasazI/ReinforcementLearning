@@ -14,15 +14,15 @@ class Policy:
         self.rcu = util.RentalCarUtil()
 
         # 状態ごとのPolicy(整数)
-        self.policy = np.zeros([self.rcu.MAX_NUM_RENTAL_CAR, self.rcu.MAX_NUM_RENTAL_CAR], dtype=np.int)
+        self.policy = np.zeros([self.rcu.MAX_NUM_RENTAL_CAR+1, self.rcu.MAX_NUM_RENTAL_CAR+1], dtype=np.int)
         print("policy shape: ")
         print(self.policy.shape)
 
-        self.print_boundary = "====" + ("====" * self.rcu.MAX_NUM_RENTAL_CAR)
-        self.print_bar = "----" + ("----" * self.rcu.MAX_NUM_RENTAL_CAR)
+        self.print_boundary = "====" + ("====" * (self.rcu.MAX_NUM_RENTAL_CAR+1))
+        self.print_bar = "----" + ("----" * (self.rcu.MAX_NUM_RENTAL_CAR+1))
         self.print_header = "   |"
-        for i in xrange(self.rcu.MAX_NUM_RENTAL_CAR):
-            self.print_header += " %02d " % (i+1)
+        for i in xrange(self.rcu.MAX_NUM_RENTAL_CAR+1):
+            self.print_header += " %02d " % (i)
 
     def get_policy(self, x, y):
         '''
@@ -52,9 +52,9 @@ class Policy:
         print self.print_boundary
         print self.print_header
         print self.print_bar
-        for j in xrange(self.rcu.MAX_NUM_RENTAL_CAR):
-            print_format = "%02d |" % (j+1)
-            for i in xrange(self.rcu.MAX_NUM_RENTAL_CAR):
+        for j in xrange(self.rcu.MAX_NUM_RENTAL_CAR+1):
+            print_format = "%02d |" % (j)
+            for i in xrange(self.rcu.MAX_NUM_RENTAL_CAR+1):
                 print_format += " %02d " % self.policy[i][j]
             print print_format
 
