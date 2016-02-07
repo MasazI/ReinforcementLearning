@@ -55,8 +55,6 @@ class StatusValue():
         状態価値の出力
         '''
         print self.print_boundary
-        print "V(s)"
-        print self.print_bar
         print self.print_header
         print self.print_bar
         for j in xrange(self.rcu.MAX_NUM_RENTAL_CAR):
@@ -114,7 +112,7 @@ class StatusValue():
 
                         # 価値の期待値
                         # 確率 * (報酬 + 次の[x, y]の報酬) を全ての状態について足し合わせる
-                        value += probability * (reward + 0.9 * self.value[next_x][next_y])
+                        value += probability * (reward + self.rcu.discount_rate * self.value[next_x][next_y])
                         
         return value
 
