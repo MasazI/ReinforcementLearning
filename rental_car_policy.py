@@ -50,8 +50,6 @@ class Policy:
         Policyの出力
         '''
         print self.print_boundary
-        print "P(s, a)"
-        print self.print_bar
         print self.print_header
         print self.print_bar
         for j in xrange(self.rcu.MAX_NUM_RENTAL_CAR):
