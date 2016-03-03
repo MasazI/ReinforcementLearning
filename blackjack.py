@@ -40,7 +40,7 @@ class Blackjack:
 
         # プレイヤーの初期化(控除率を上げるため11以下の場合は強制的にヒット)
         while(self.player_total < 12):
-            self.player_hit()
+            self.player_draw()
 
         # ディーラーの初期化(2枚のカードを引く)
         for i in xrange(2):
@@ -86,13 +86,31 @@ class Blackjack:
         while(self.dealer_total < 17):
             self.dealer_draw()
 
+    def player_hit(self):
+        '''
+        プレイヤーがカードを1回引く
+        '''
+        self.player_draw(self)
+
+        # 21を超えた場合修了フラグをたてる
+        if self.player_total > 21:
+            self.finish = True
+
+
+    def player_stand(self):
+        
+
 def test():
     blackjack = Blackjack() 
+
+
     print blackjack.player_cards   
     print blackjack.dealer_cards
 
 if __name__ == '__main__':
-    test()
+    game = Blackjack()
+
+
 
 
 
