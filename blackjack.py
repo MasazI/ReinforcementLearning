@@ -38,7 +38,7 @@ class Blackjack:
         
         self.finish = False
 
-        # プレイヤーの初期化(控除率を上げるため11以下の場合は強制的にヒット)
+        # プレイヤーの初期化(控除率を上げるため11以下の場合は強制的にヒットしてカードをひく)
         while(self.player_total < 12):
             self.player_draw()
 
@@ -65,7 +65,6 @@ class Blackjack:
             self.player_total -= 10
             self.player_ace -= 1
 
-
     def dealer_draw(self):
         '''
         ディーラーがカードを1枚引く
@@ -90,27 +89,99 @@ class Blackjack:
         '''
         プレイヤーがカードを1回引く
         '''
-        self.player_draw(self)
+        self.player_draw()
 
         # 21を超えた場合修了フラグをたてる
         if self.player_total > 21:
             self.finish = True
 
-
     def player_stand(self):
+        '''
+        プレイヤーがスタンドする(カードを引くのをやめる)
+        '''
+        if self.finish:
+            print("blackjack game hasfinished.")
+            return
+        self.finish = True
+        self.dealer_keep_draw()
+
+    def judgement_result(self):
+        '''
+        勝負結果の判定
+        '''
+        if not self.finish:
+            print("blackjack plaing")
+        win = 0
+        if self.player_total > 21:
+            win = -1
+        elif self.dealer_total > 21:
+            win = 1
+        elif self.player_total > self.dealer_total:
+            win = 1
+        elif self.player_total < self.dealer_total:
+            win = -1
+        else:
+            win = 0
+
+        return win
+
+    def output(self):
+        '''
+        状況もしくは結果の出力
+        '''  
+        print("--"*30)
+        print("Player total %d" % (self.player_total))
+        print("Cards: %s" % (self.player_cards))
+
+        if self.finish:
+            print("Dealer total %d" % (self.dealer_total))
+            print("Cards: %s" % (self.dealer_cards))
+        else:
+            print("Dealer total ?")
+            print("Cards: [%s, ??]" % (self.dealer_cards[0]))
+        print("--"*30)
         
 
 def test():
     blackjack = Blackjack() 
-
-
     print blackjack.player_cards   
     print blackjack.dealer_cards
 
 if __name__ == '__main__':
+    '''
+    Blackjack game.
+    '''
     game = Blackjack()
+    while(True):
+        game.output()
+        
+        print("Choice your action:")
+        print("[h] hit")
+        print("[s] stand")
+        print("[q] quit")
 
+        input_line = raw_input()
 
+        if input_line == 'q':
+            print('quit')
+            break
+        elif input_line == 'h':
+            game.player_hit()
+        elif input_line == 's':
+            game.player_stand()
+        else:
+            print("invalide action.")
+            continue
 
+        if game.finish:
+            break
 
+    game.output()
+    result = game.judgement_result()
+    if result > 0:
+        print("You Win!!!")
+    elif result < 0:
+        print("You Lose...")
+    else:
+        print("Draw")
 
