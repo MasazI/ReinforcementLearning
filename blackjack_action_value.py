@@ -62,6 +62,9 @@ class ActionValue:
         self.value[ace_index][player_total][dealer_face_value][action_index] = value
 
     def output(self):
+        '''
+        現状の出力
+        '''
         print(re.sub('-----', '[ace]', self.print_bar, 1))
         print(self.print_header)
         print(self.print_bar)
