@@ -125,6 +125,20 @@ class Blackjack:
 
         return win
 
+    def player_has_ace(self):
+        '''
+        プレイヤーがエースをもっているかどうか
+        '''
+        if self.player_ace > 0:
+            return True
+        return False
+
+    def dealer_face_value(self):
+        '''
+        ディーラーのオープンにしているカードを取得する
+        '''
+        return self.CARD_VALUE[self.dealer_cards[0]]        
+
     def output(self):
         '''
         状況もしくは結果の出力
