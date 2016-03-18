@@ -13,7 +13,11 @@ class Policy:
     def __init__(self):
         # 方策
         # 構造: Aceを保持[yes, no] - プレイヤーのトータル数 - ディーラーのオープンしているカード - hit(True or False)]
-        self.policy = [defaultdict(lambda: defaultdict(lambda: True)), defaultdict(lambda: defaultdict(lambda: True))]
+        # 行動パターン
+        self.actions = (True, False)
+
+        # 初回はランダムに取り出す
+        self.policy = [defaultdict(lambda: defaultdict(lambda: choice(self.actions))), defaultdict(lambda: defaultdict(lambda: choice(self.actions)))]
 
         # 出力ヘッダの準備
         self.print_bar = "-------" + "--------------" * 9

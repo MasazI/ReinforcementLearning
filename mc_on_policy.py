@@ -5,7 +5,7 @@
 
 from blackjack import Blackjack
 from blackjack_action_value import ActionValue
-from blackjack_policy import Policy
+from blackjack_on_policy import Policy
 
 from collections import deque
 import random
@@ -45,22 +45,16 @@ class MCONP:
             player_total = game.player_total
             player_has_ace = game.player_has_ace()
 
-            # モンテカルロESのES
-            # 最初の行動はExploring Starts(ランダムに選択)
-            #if not player_hit_queue:
-            #    player_hit = random.choice([True, False])
-            #else:
-                # 方策によって行動を選択
-            #    player_hit = self.policy.hit(player_total, player_has_ace, dealer_face_value)
-
-            # 方策ONなので方策によって行動を選択
+            # 方策ON
+            # 最善方策を取得
             player_hit = self.policy.hit(player_total, player_has_ace, dealer_face_value)
 
+            # 最善方策以外も選択する可能性がある
             if train:
                 # ε-greedy
                 select = random.random()
                 for i, action in enumerate((True, False)):
-                    if select < ((self.epsilon / 2) * (i+1))
+                    if select < ((self.epsilon / 2) * (i+1)):
                         player_hit = action
                         break
 
