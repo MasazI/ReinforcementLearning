@@ -165,7 +165,46 @@ class Course:
         '''
         return np.array(action.split(','), dtype=np.int)
 
+    ## 現在の状態文字列の位置について、状態を取得
+    def is_in(self, state):
+        '''
+        状態がINかどうか
+        arguments:
+            状態文字列
+        return:
+            INの場合はTrue, INでない場合はFalse
+        '''
+        return self.to_course_info(state) == IN
 
+    def is_out(self, state):
+        '''
+        状態がOUTかどうか
+        arguments:
+            状態文字列
+        return:
+            OUTの場合はTrue, OUTでない場合はFalse
+        '''
+        return self.to_course_info(state) == OUT
+
+    def is_start(self, state):
+        '''
+        状態がSTARTかどうか
+        arguments:
+            状態文字列
+        return:
+            STARTの場合はTrue, STARTでない場合はFalse
+        '''
+        return self.to_course_info(state) == START
+
+    def is_goal(self, state):
+        '''
+        状態がGOALかどうか
+        arguments:
+            状態文字列
+        return:
+            GOALの場合はTrue, GOALでない場合はFalse
+        '''
+        return self.to_course_info(state) == GOAL
 
 # test
 if __name__ == '__main__':
