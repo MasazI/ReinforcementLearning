@@ -2,6 +2,8 @@
 '''
 レースの行動価値
 '''
+from collections import defaultdict
+
 class RaceActionValue:
     def __init__(self):
         # 状態ごとの各行動の価値を保存
@@ -49,5 +51,5 @@ class RaceActionValue:
         '''
         self.points[state][action] += reward * weight
         self.weights[state][action] += weight
-        self.value[state][action] = self.points[state][action] / weights[state][action]
+        self.value[state][action] = self.points[state][action] / self.weights[state][action]
 

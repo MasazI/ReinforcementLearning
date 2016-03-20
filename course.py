@@ -142,7 +142,12 @@ class Course:
         return:
             指定した位置におけるコースの状態
         '''
-        return self.course_info[y][x]
+        try:
+            course_state = self.course_info[y][x]
+        except Exception as e:
+            print("y: %d, x: %d" % (y, x))
+            print(e)
+        return course_state
 
     def to_action(self, ax, ay):
         '''
