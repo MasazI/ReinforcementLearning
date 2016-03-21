@@ -56,23 +56,28 @@ class MCONPRace:
                 select = random.random()
                 for i, action in enumerate(valid_actions):
                     if select < ((self.epsilon / len(valid_actions)) * (i+1)):
+                        #print("select action index: %d" %(i))
                         select_action = action
                         break
+            #print valid_actions
+            #print select_action
+
             # 選択したアクションを状態行動列に追加
             actions.append(select_action)
 
             # 状態-行動による次の状態と報酬の取得
             next_state, reward = self.course.step(state, select_action)
 
+            #print next_state
+
             states.append(next_state)
             rewards.append(reward)
 
             state_list = state.split(",")
-            action_list = action.split(",")
+            action_list = select_action.split(",")
 
             if verbose:
                 print("position: (%2s, %2s), speed: (%2s, %2s), action: (%2s, %2s), raward: %2d" % (state_list[0], state_list[1], state_list[2], state_list[3], action_list[0], action_list[1], reward))
-
 
             if self.course.is_goal(next_state):
                 if verbose:
