@@ -25,7 +25,7 @@ class MCONPRace:
         self.policy = policy
         self.epsilon = epsilon
 
-    def simulate(self, start=None, learning=True, verbose=False):
+    def simulate(self, start=None, training=True, verbose=False):
         '''
         シュミレーション(方策ONモンテカルロ学習)
         arguments:
@@ -36,7 +36,6 @@ class MCONPRace:
         if start is None:
             starts = self.course.starts
             start = random.choice(starts)
-            print start
 
         # 状態行動列キュー
         states = deque()
@@ -54,7 +53,7 @@ class MCONPRace:
             select_action = self.policy.get_action(state)
 
             # 学習の場合はソフト方式で行動を選択
-            if learning:
+            if training:
                 select = random.random()
                 for i, action in enumerate(valid_actions):
                     if select < ((self.epsilon / len(valid_actions)) * (i+1)):
@@ -83,7 +82,7 @@ class MCONPRace:
             else:
                 state = next_state
 
-        if learning:
+        if training:
             # 行動価値を更新
             updated = deque()
             # 終端を切り捨て
@@ -100,20 +99,3 @@ class MCONPRace:
             for state, action in updated:
                 max_action = self.value.get_max_action(state)
                 self.policy.set_action(state, max_action)
-
-def test():
-    course = Course(COURSE1)
-    value = RaceActionValue()
-    policy = RacePolicy(course)
-    mcon_policy_race = MCONPRace(course, value, policy, 0.3)
-
-    epochs = 30
-    iterations = 10000
-
-    for i in xrange(epochs):
-        for j in xrange(iterations):
-            mcon_policy_race.simulate(verbose=True)
-
-
-if __name__ == '__main__':
-    test()
