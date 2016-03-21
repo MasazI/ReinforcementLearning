@@ -37,7 +37,8 @@ class RaceActionValue:
             指定された状態で最も行動価値の高い行動
         '''
         states = self.value[state]
-        max_state_action = max(states)
+        max_state_action = max(states.items(), key=lambda x:x[1])[0]
+
         return max_state_action
 
     def update(self, state, action, reward, weight=1.0):
