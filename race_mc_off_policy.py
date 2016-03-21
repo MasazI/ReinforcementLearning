@@ -17,8 +17,8 @@ import random
 
 from collections import deque
 
-class MCOFFRace:
-    def __init(self, course, value, policy, epsilon=0.1):
+class MCOFFPRace:
+    def __init__(self, course, value, policy, epsilon=0.1):
         self.course = course
         self.value = value
         self.policy = policy
@@ -90,13 +90,13 @@ class MCOFFRace:
 
             state = states.pop()
             action = actions.pop()
-            reward_sum = rewards.pop
+            reward_sum = rewards.pop()
             weight = 1.0
 
             while(True):
-                actions_size = len(course.get_valid_actions(state))
+                actions_size = len(self.course.get_valid_actions(state))
                 # 以下の更新は決定論的方策(行動が方策に対して一意に決定する)が前提の計算
-                if action == policy.get_action(state):
+                if action == self.policy.get_action(state):
                     # ポリシーと一致する場合はp=1
                     # 分子はrewards(分子に現れる重みはすべて1なので収益のみになる)
                     # 分母はweights
@@ -108,7 +108,7 @@ class MCOFFRace:
                         # 次(今計算した時刻の1つ前)を取得
                         state = states.pop()
                         action = actions.pop()
-                        reward_sum = rewards.pop()
+                        reward_sum += rewards.pop()
 
                         # グリーディな行動に対する方策改善の重み
                         # グリーディでない行動に対する重みはここでは計算する必要がない(p=0)
