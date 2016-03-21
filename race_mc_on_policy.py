@@ -4,7 +4,6 @@
 '''
 
 from race import START
-from race import COURSE1
 from race import MAX_SPEED
 from race import OUT
 from race import IN
