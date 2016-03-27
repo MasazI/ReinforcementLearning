@@ -1,7 +1,7 @@
 # encoding: utf-8
-from mark import Mark
+from mark_base import MarkBase
 
-class Maru(Mark):
+class Maru(MarkBase):
     '''
     ○クラス
     '''
