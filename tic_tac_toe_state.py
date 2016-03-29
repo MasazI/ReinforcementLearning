@@ -67,6 +67,11 @@ class State:
     def is_win(self, mark):
         '''
         指定したマークの手が勝利かどうか
+        arguments:
+            mark:マーク
+        return:
+            True:指定したマークが勝利
+            False:指定したマークは勝利していない（勝負がついていない）
         '''
         mark_int = mark.to_int()
         for i, j, k in self.win_state:
@@ -75,11 +80,23 @@ class State:
         return False
 
     def is_draw(self):
+        '''
+        盤面の状態が引き分けかどうか
+        return:
+            True:引き分け
+            False:引き分けではない（勝負がついていない）
+        '''
         if len(self.get_valid_actions()) == 0 and not self.is_win(Mark(Maru())) and not self.is_win(Mark(Batsu())):
             return True
         return False
 
     def is_end(self):
+        '''
+        盤面の状態がゲーム修了かどうか
+        return:
+            True:修了
+            False:修了していない（勝負がついていない）
+        '''
         if self.is_win(Mark(Maru())) or self.is_win(Mark(Batsu())) or len(self.get_valid_actions()) == 0:
             return True
         return False
