@@ -36,7 +36,6 @@ if __name__ == '__main__':
     print batsu.to_int()
     print batsu.opponent().to_string()
     print '=' * 10
-
     empty = Mark(Empty())
     print empty.to_string()
     print empty.to_int()

@@ -101,6 +101,10 @@ class State:
             return True
         return False
 
+    def output(self):
+        for x, y, z in zip(*[iter(self.state)]*3):
+            print("%s %s %s" % (x.to_string(), y.to_string(), z.to_string()))
+
 if __name__ == '__main__':
     state1 = State()
     print state1.state
@@ -134,3 +138,5 @@ if __name__ == '__main__':
     new_state10 = new_state9.set(8, Mark(Maru()))
     print new_state10.to_array()
     print new_state10.is_draw()
+
+    new_state10.output()
