@@ -41,7 +41,7 @@ class Game:
 
             if state.is_win(self.players[current_player_mark].mark):
                 result = self.players[current_player_mark].mark
-                # 商社の報酬
+                # 勝者の報酬
                 current_player.learn(1)
                 # 敗者の報酬
                 self.players[result.opponent().to_int()].learn(-1)
