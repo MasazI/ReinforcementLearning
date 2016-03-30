@@ -19,6 +19,18 @@ class State:
         # 盤面を配列で保持
         self.state = [Mark(Empty())]*9
 
+    def __hash__(self):
+        value = 0
+        for i in xrange(9):
+            value += 2 ** i * self.state[i].to_int()
+        return hash(value)
+
+    def __eq__(self, other):
+        for (a, b) in zip(self.state, other.state):
+            if a.to_int() != b.to_int():
+                return False
+        return True
+
     def get_valid_actions(self):
         '''
         選択可能な行動の取得
@@ -63,6 +75,7 @@ class State:
         for mark in self.state:
             int_array.append(mark.to_int())
         return int_array
+
 
     def is_win(self, mark):
         '''
@@ -140,3 +153,8 @@ if __name__ == '__main__':
     print new_state10.is_draw()
 
     new_state10.output()
+
+    state11 = State()
+    state12 = State()
+    print state11 == state12
+    print new_state == state11
