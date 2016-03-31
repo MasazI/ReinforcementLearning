@@ -1,6 +1,6 @@
 #encoding: utf-8
 '''
-tic tac toe Sarsa学習
+tic tac toe Q学習
 '''
 from tic_tac_toe_value import Value
 from tic_tac_toe_q_learning_com import QLearningCom as Com
