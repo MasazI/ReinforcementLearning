@@ -31,22 +31,27 @@ class Game:
         current_player_mark = 1
         result = None
         while(True):
+            #print("="*30)
             current_player = self.players[current_player_mark]
             if verbose:
                 print("%s" % (state.to_array()))
                 print state.output()
                 print("-"*5)
+            # プレイヤーの行動の選択
             index = current_player.select_index(state)
             #print("%s selected %i" % (self.players[current_player_mark].mark.to_string(), index))
             state = state.set(index, self.players[current_player_mark].mark)
+
+            # この時点のstateで報酬が発生する場合はここでrewardを判定して学習できる
+            # tic_tac_toeでは勝負が決まるまで報酬は0
             current_player.learn(0)
 
             if state.is_win(self.players[current_player_mark].mark):
                 result = self.players[current_player_mark].mark
                 # 勝者の報酬
-                current_player.learn(1)
+                current_player.learn(1, True)
                 # 敗者の報酬
-                self.players[result.opponent().to_int()].learn(-1)
+                self.players[result.opponent().to_int()].learn(-1, True)
                 if verbose:
                     print("%s" % (state.to_array()))
                     print("-"*5)
@@ -57,12 +62,13 @@ class Game:
             elif state.is_draw():
                 result = Mark(Empty())
                 for player in self.players.itervalues():
-                    player.learn(0)
+                    player.learn(0, True)
                 if verbose:
                     state.output()
                     print("draw.")
                 break
             current_player_mark = self.players[current_player_mark].mark.opponent().to_int()
+            #print("="*30)
 
 if __name__ == '__main__':
     player1 = Player(Mark(Maru()))

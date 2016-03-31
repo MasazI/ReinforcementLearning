@@ -54,11 +54,12 @@ class Value:
 
     def update(self, state, reward, next_state):
         '''
-        行動を行った後の状態stateに対する価値を更新する
+        状態の価値の更新
+        (状態s, 報酬a)と事後状態s'から選択した行動をとった後の状態s''に対する報酬r''を利用して価値
         arguments:
             状態
             報酬
-            行動を行った後の状態
+            事後状態から行動を行った後の状態
         '''
         if next_state is None:
             next_state_value = 0.0
@@ -67,7 +68,7 @@ class Value:
             next_state_value = self.value[next_state]
         # 行動価値の更新式
         self.value[state] += self.step_size * (reward + next_state_value - self.value[state])
-        # print self.value
+        #print("value[state] %f", self.value[state])
 
 if __name__ == '__main__':
     value = Value()

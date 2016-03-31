@@ -44,6 +44,8 @@ class SarsaCom:
 
         # 選択した行動の事後状態
         after_state = state.set(selected_action, self.mark)
+
+        # 選択した行動の事後状態
         if self.previous_reward is not None and self.previous_after_state is not None:
             self.value.update(self.previous_after_state, self.previous_reward, after_state)
 
@@ -58,6 +60,7 @@ class SarsaCom:
         学習
         arguments:
             報酬
+            終端状態かどうか
         '''
         if self.training:
             if finished:
