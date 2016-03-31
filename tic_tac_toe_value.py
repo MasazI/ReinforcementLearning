@@ -49,7 +49,7 @@ class Value:
 
         # 選択可能な行動をとった後の最大の状態価値を取得
         max_action = max(map.items(), key=lambda x:x[1])[0]
-        print map 
+        #print map 
         return max_action
 
     def update(self, state, reward, next_state):
@@ -67,7 +67,7 @@ class Value:
             next_state_value = self.value[next_state]
         # 行動価値の更新式
         self.value[state] += self.step_size * (reward + next_state_value - self.value[state])
-        print self.value
+        # print self.value
 
 if __name__ == '__main__':
     value = Value()

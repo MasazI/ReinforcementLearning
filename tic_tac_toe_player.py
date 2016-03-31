@@ -25,6 +25,6 @@ class Player:
 
     def learn(self, reward):
         '''
-        AIにオーバーライドさせる関数
+        学習(AIにオーバーライドさせる）
         '''
         pass

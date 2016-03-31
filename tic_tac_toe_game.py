@@ -34,8 +34,10 @@ class Game:
             current_player = self.players[current_player_mark]
             if verbose:
                 print("%s" % (state.to_array()))
+                print state.output()
+                print("-"*5)
             index = current_player.select_index(state)
-            print("%s selected %i" % (self.players[current_player_mark].mark.to_string(), index))
+            #print("%s selected %i" % (self.players[current_player_mark].mark.to_string(), index))
             state = state.set(index, self.players[current_player_mark].mark)
             current_player.learn(0)
 
@@ -54,7 +56,7 @@ class Game:
                 break
             elif state.is_draw():
                 result = Mark(Empty())
-                for player in self.players:
+                for player in self.players.itervalues():
                     player.learn(0)
                 if verbose:
                     state.output()
