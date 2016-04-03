@@ -12,7 +12,6 @@ from batsu_mark import Batsu
 from empty_mark import Empty
 
 from tic_tac_toe_state import State
-from tic_tac_toe_value import Value
 
 from tic_tac_toe_game import Game
 
@@ -50,7 +49,7 @@ while(True):
     print("Select a type of fight [1, 2, 3, q]")
     print("1: human vs com2")
     print("2: com1 vs human")
-    print("3: com2 vs com2")
+    print("3: com1 vs com2")
     print("q: quit")    
 
     type_of_fight = 1
