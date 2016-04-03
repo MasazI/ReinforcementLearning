@@ -18,6 +18,8 @@ class Value:
         状態ごとに価値を保存
         '''
         self.value = defaultdict(lambda: 0.0)
+        # valueを確認したいときのdebug用
+        self.verbose = False
 
     def get_value(self, state):
         '''
@@ -46,6 +48,8 @@ class Value:
         for action in actions:
             after_state = state.set(action, mark)
             map[action] = self.value[after_state]
+            if self.verbose:
+                print("action: %d, value: %f" % (action, map[action]))
 
         # 選択可能な行動をとった後の最大の状態価値を取得
         max_action = max(map.items(), key=lambda x:x[1])[0]
