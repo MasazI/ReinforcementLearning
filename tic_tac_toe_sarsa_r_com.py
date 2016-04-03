@@ -61,6 +61,8 @@ class SarsaRCom:
         for action in state.get_valid_actions():
             after_state = state.set(action, self.mark)
             map[action] = self.value[after_state]
+            if self.verbose:
+                print("action %s, value: %f" % (action, map[action]))
 
         # 選択可能な行動をとった後の最大の状態価値を取得
         selected_action = max(map.items(), key=lambda x:x[1])[0]
@@ -107,8 +109,7 @@ class SarsaRCom:
                 value_diff = reward - previous_value
 
             for state, weight in self.accumulated_weights.iteritems():
-                # ステップごとにλをかける
-                self.accumulated_weights[state] += self.td_lambda * value_diff * weight
+                self.value[state] += self.step_size * value_diff * weight
        
             if self.verbose:
                 print("previous value: %f" % (previous_value))
@@ -120,7 +121,6 @@ class SarsaRCom:
             if self.current_state is None:
                 self.accumurated_weights = defaultdict(lambda: 0.0)
 
-            
-            self.previous_state = self.current_state
-            self.current_state = None
+        self.previous_state = self.current_state
+        self.current_state = None
 
