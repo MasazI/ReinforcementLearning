@@ -23,8 +23,8 @@ class Player:
             if int(input_line) in actions:
                 return int(input_line)
 
-    def learn(self, reward):
+    def learn(self, reward, finished=False):
         '''
-        AIにオーバーライドさせる関数
+        学習(AIにオーバーライドさせる）
         '''
         pass
